@@ -21,6 +21,10 @@ export default async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 
+  if (req.nextUrl.pathname.startsWith("/profile") && !token) {
+    return NextResponse.redirect(new URL("/", req.url));
+  }
+
   if (req.nextUrl.pathname === "/logOut") {
     const response = NextResponse.redirect(new URL("/signIn", req.url));
     response.cookies.set("token", "", {
@@ -34,8 +38,6 @@ export default async function middleware(req: NextRequest) {
 
   if (!token) return NextResponse.redirect(new URL("/signIn", req.url));
   const decoded: any = await decrypt(token);
-  console.log(token, "token");
-  console.log(decoded, "decoded");
 
   if (!decoded) return NextResponse.redirect(new URL("/signIn", req.url));
 
@@ -51,5 +53,11 @@ export default async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/signIn", "/signUp", "/logOut"],
+  matcher: [
+    "/admin/:path*",
+    "/signIn",
+    "/signUp",
+    "/logOut",
+    "/profile/:path*",
+  ],
 };

@@ -93,26 +93,6 @@ export const adminMenu: IListItemAdmin[] = [
     ],
   },
   {
-    id: 4,
-    link: "/admin/payments",
-    title: "Quản lý thanh toán",
-    icon: CreditCardIcon,
-    subMenuItem: [
-      {
-        id: 401,
-        link: "/admin/payments",
-        title: "Danh sách thanh toán",
-        icon: CreditCardIcon,
-      },
-      {
-        id: 402,
-        link: "/admin/payments/pending",
-        title: "Thanh toán chờ xử lý",
-        icon: CreditCardIcon,
-      },
-    ],
-  },
-  {
     id: 5,
     link: "/admin/discounts",
     title: "Quản lý khuyến mãi",

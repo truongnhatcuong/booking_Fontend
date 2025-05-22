@@ -7,12 +7,17 @@ import useSWR from "swr";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { fetcher } from "@/lib/fetcher";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import axios from "axios";
+import { set } from "date-fns";
 
 interface BookedRange {
   start: string; // "YYYY-MM-DD"
   end: string; // "YYYY-MM-DD"
 }
-
+const fetcher1 = (url: string) => axios.get(url).then((res) => res.data);
 interface RoomBooking {
   room: {
     id: string;
@@ -34,6 +39,7 @@ interface RoomBooking {
       totalGuests: number;
       specialRequests: string;
       totalAmount: number;
+      bookingSource: string;
       discountId: number | null;
       pricePerNight: number;
       roomId: string;
@@ -49,7 +55,7 @@ const FormBooking = ({
 }: RoomBooking) => {
   const [isOpen, setIsOpen] = useState(false);
   const [bookedDates, setBookedDates] = useState<Date[]>([]);
-
+  const [discountCode, setDiscountCode] = useState("");
   const handleOpenModal = () => {
     if (formData.checkInDate && formData.checkOutDate) {
       if (formData.checkOutDate <= formData.checkInDate) {
@@ -66,6 +72,37 @@ const FormBooking = ({
     `${process.env.NEXT_PUBLIC_URL_API}/api/room/${room.id}/booked-dates`,
     fetcher
   );
+
+  const { data: discount } = useSWR(
+    discountCode
+      ? `${process.env.NEXT_PUBLIC_URL_API}/api/discount?code=${discountCode}`
+      : null,
+    fetcher1
+  );
+
+  function handleDiscountCode() {
+    if (!formData.checkInDate || !formData.checkOutDate) return;
+    const basePrice = Number(room.roomType.basePrice);
+    const days =
+      (formData.checkOutDate.getTime() - formData.checkInDate.getTime()) /
+      (1000 * 60 * 60 * 24);
+    if (discount?.data?.percentage) {
+      setFormData((prev) => ({
+        ...prev,
+        discountId: discount.data.id,
+        totalAmount: Math.round(
+          basePrice * days * (1 - discount.data.percentage / 100)
+        ),
+      }));
+      toast.success("Mã giảm giá đã được áp dụng!");
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        discountId: null,
+        totalAmount: Math.round(basePrice * days),
+      }));
+    }
+  }
 
   useEffect(() => {
     if (data) {
@@ -187,6 +224,21 @@ const FormBooking = ({
                 onChange={handleFormChange}
                 value={formData.specialRequests}
               />
+            </div>
+          </div>
+          <div className="grid w-full max-w-sm gap-2">
+            <Label htmlFor="discount">Mã giảm giá</Label>
+            <div className="flex items-center gap-2">
+              <Input
+                id="discount"
+                placeholder="Nhập mã giảm giá"
+                value={discountCode.toUpperCase()}
+                onChange={(e) => setDiscountCode(e.target.value)}
+              />{" "}
+              <Button type="button" onClick={handleDiscountCode}>
+                {" "}
+                Áp Dụng
+              </Button>
             </div>
           </div>
 

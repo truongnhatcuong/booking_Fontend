@@ -48,7 +48,7 @@ const HeaderTop = () => {
                   </button>
                 </Link>
                 <div className="h-5 border-r-2 border-white" />
-                <Link href={"#"}>
+                <Link href={"/profile"}>
                   <div className="hover:text-yellow-200 transition-colors duration-200 cursor-pointer">
                     Tài Khoản
                   </div>

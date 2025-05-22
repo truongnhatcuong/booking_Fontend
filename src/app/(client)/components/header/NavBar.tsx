@@ -13,7 +13,7 @@ const NavBar = ({ open, setOpen }: INavBar) => {
       {" "}
       <button
         onClick={() => setOpen(!open)}
-        className="text-white border rounded-full px-1 py-1.5 bg-blue-800 md:hidden block  cursor-pointer"
+        className="md:hidden block  cursor-pointer"
       >
         <Menu size={28} />
       </button>

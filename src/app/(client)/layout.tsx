@@ -18,13 +18,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className={`${inter.className} flex flex-col min-h-screen`}>
+    <div className={`${inter.className} flex flex-col h-screen`}>
       <header>
         <HeaderTop />
         <Header />
       </header>
       <main className="flex-1">{children}</main>
-      <footer>
+      <footer className="mt-20">
         <Footer />
       </footer>
     </div>

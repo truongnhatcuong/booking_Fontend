@@ -1,6 +1,7 @@
 import { formatDate } from "@/lib/formatDate";
 import { formatPrice } from "@/lib/formatPrice";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import Modal from "react-modal";
@@ -35,6 +36,7 @@ interface ModalPaymentProps {
       totalAmount: number;
       discountId: number | null;
       pricePerNight: number;
+      bookingSource: string;
       roomId: string;
     }>
   >;
@@ -49,7 +51,7 @@ const ModalPayment = ({
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState<PaymentMethod | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
-
+  const router = useRouter();
   useEffect(() => {
     Modal.setAppElement("#root");
   }, []);
@@ -68,7 +70,7 @@ const ModalPayment = ({
       );
       if (res.data) {
         toast.success("Đặt phòng thành công!");
-
+        router.push("/profile/bookings");
         setIsOpen(false);
         const resPayment = await axios.post(
           `${process.env.NEXT_PUBLIC_URL_API}/api/payment`,
@@ -76,6 +78,7 @@ const ModalPayment = ({
             amount: formData.totalAmount,
             paymentMethod: selectedPaymentMethod,
             bookingId: res.data.data.id,
+            status: "PENDING",
           }
         );
 
@@ -187,13 +190,6 @@ const ModalPayment = ({
                   {formatPrice(formData.pricePerNight)}
                 </span>
               </div>
-
-              {formData.discountId && (
-                <div className="flex justify-between text-green-600">
-                  <span>Discount Applied:</span>
-                  <span>Yes (ID: {formData.discountId})</span>
-                </div>
-              )}
 
               <div className="flex justify-between font-bold text-xl mt-2">
                 <span>Tổng Số Tiền:</span>

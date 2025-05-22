@@ -52,6 +52,7 @@ interface FormData {
   checkInDate: Date | null;
   checkOutDate: Date | null;
   totalGuests: number;
+  bookingSource: string;
   specialRequests: string;
   totalAmount: number;
   discountId: number | null;
@@ -80,6 +81,7 @@ const Page = ({ params }: { params: Promise<{ roomId: string }> }) => {
     checkOutDate: null,
     totalGuests: 1,
     specialRequests: "",
+    bookingSource: "WEBSITE",
     totalAmount: 0,
     discountId: null,
     pricePerNight: 0,
