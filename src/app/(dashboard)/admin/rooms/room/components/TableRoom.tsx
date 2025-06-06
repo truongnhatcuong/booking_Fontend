@@ -9,9 +9,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Image from "next/image";
-
 import UpdateRoom from "./UpdateRoom";
 import DeleteRoom from "./DeleteRoom";
+import CheckDateInOut from "./CheckDateInOut";
+import CreateMaintenanceForm from "../../maintenance/components/CreateMaintenanceForm";
 
 interface Room {
   id: string;
@@ -21,6 +22,7 @@ interface Room {
   images: { id: string; imageUrl: string }[];
   notes: string;
   roomTypeId: string;
+  bookingItems: { booking: { checkInDate: string; checkOutDate: string } }[];
   roomType: {
     name: string;
     maxOccupancy: number;
@@ -53,6 +55,7 @@ const TableRoom = ({ rooms, data }: TableRoomProps) => {
             <TableHead>Số phòng</TableHead>
             <TableHead>Tầng</TableHead>
             <TableHead>Trạng thái</TableHead>
+            <TableHead>Ngày Nhận && Ngày Trả</TableHead>
             <TableHead>Loại phòng</TableHead>
             <TableHead>Hành Động</TableHead>
           </TableRow>
@@ -84,10 +87,17 @@ const TableRoom = ({ rooms, data }: TableRoomProps) => {
                   {translateStatus(room.status)}
                 </span>
               </TableCell>
+              <TableCell>
+                <CheckDateInOut room={room} />
+              </TableCell>
               <TableCell>{room.roomType.name}</TableCell>
               <TableCell className="flex items-center mt-2 gap-3">
                 <UpdateRoom data={data} rooms={room} />
                 <DeleteRoom roomTypeId={room.id} />
+                <CreateMaintenanceForm
+                  RoomNumber={room.roomNumber}
+                  roomId={room.id}
+                />
               </TableCell>
             </TableRow>
           ))}

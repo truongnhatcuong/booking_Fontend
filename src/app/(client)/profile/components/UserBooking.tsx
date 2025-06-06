@@ -1,12 +1,13 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-import { ChevronDown, ChevronUp, Printer, X, Phone, Mail } from "lucide-react";
+import { ChevronDown, ChevronUp, Printer } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { formatDate } from "@/lib/formatDate";
 import { formatPrice } from "@/lib/formatPrice";
 import RemoveBooking from "./RemoveBooking";
+import ReviewCusTomer from "./ReviewCusTomer";
 
 interface Amenity {
   amenity: {
@@ -98,7 +99,16 @@ const BookingDetails = ({ booking }: BookingDetailsProps) => {
     };
     return statusMap[status] || status;
   };
+  const translatePaymentStatus = (status: string) => {
+    const statusMap: Record<string, string> = {
+      PENDING: "Đang chờ thanh toán",
+      COMPLETED: "Đã thanh toán",
+      FAILED: "Thanh toán thất bại",
+      REFUNDED: "Đã hoàn tiền",
+    };
 
+    return statusMap[status] || status;
+  };
   // Translate payment method
   const translatePaymentMethod = (method: string) => {
     const methodMap: Record<string, string> = {
@@ -138,13 +148,16 @@ const BookingDetails = ({ booking }: BookingDetailsProps) => {
             {booking.status === "CHECKED_OUT" ? (
               <>
                 {" "}
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" className="cursor-pointer">
                   <Printer className="h-4 w-4 mr-2" />
                   In hóa đơn
                 </Button>
+                <ReviewCusTomer bookingId={booking.id} />
               </>
-            ) : (
+            ) : booking.status === "PENDING" ? (
               <RemoveBooking bookingId={booking.id} />
+            ) : (
+              ""
             )}
           </div>
         </div>
@@ -234,11 +247,29 @@ const BookingDetails = ({ booking }: BookingDetailsProps) => {
               <h3 className="font-medium mb-2">Chi tiết thanh toán</h3>
               {booking.payments.map((payment, index) => (
                 <div key={index} className="flex justify-between text-sm py-1">
-                  <span className="text-gray-600">
-                    {translatePaymentMethod(payment.paymentMethod)} •{" "}
-                    {formatDate(payment.paymentDate)}
-                  </span>
-                  <span>{formatPrice(Number(payment.amount))}</span>
+                  <div className="space-x-2">
+                    {" "}
+                    <span className="text-gray-600">
+                      {translatePaymentMethod(payment.paymentMethod)} •{" "}
+                      {formatDate(payment.paymentDate)}
+                    </span>
+                    <span>{formatPrice(Number(payment.amount))}</span>
+                  </div>
+                  <div
+                    className={`text-sm ${
+                      payment.status === "COMPLETED"
+                        ? "text-green-600"
+                        : payment.status === "PENDING"
+                        ? "text-yellow-600"
+                        : payment.status === "REFUNDED"
+                        ? "text-blue-600"
+                        : payment.status === "FAILED"
+                        ? "text-red-600"
+                        : "text-gray-600"
+                    }`}
+                  >
+                    {translatePaymentStatus(payment.status)}
+                  </div>
                 </div>
               ))}
             </div>

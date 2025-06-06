@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
+import SWRProvider from "@/components/ui/SWRProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -20,8 +21,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Toaster />
         <main className="" id="root">
-          {" "}
-          {children}
+          <SWRProvider>{children}</SWRProvider>
         </main>
       </body>
     </html>

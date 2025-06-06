@@ -23,11 +23,15 @@ import { Badge } from "@/components/ui/badge";
 import { MoreHorizontal, Search } from "lucide-react";
 import { formatDate } from "@/lib/formatDate";
 import AddEmployee from "./AddEmployee";
+import DisabledUser from "./DisabledUser";
+import PermissionEmployee from "./PermissionEmployee";
 
 interface EmployeeDetails {
+  id: string;
   department: string;
   hireDate: string;
   position: string;
+  roles: { role: { name: string } }[];
 }
 
 interface Employee {
@@ -53,7 +57,13 @@ interface IEmployees {
 
 const TableEmployee = ({ employee }: IEmployees) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [isPermissionModalOpen, setIsPermissionModalOpen] = useState(false);
+  const [idEmployee, setIdEmployee] = useState<string | null>(null);
 
+  function OpenModalGetId(id: string) {
+    setIsPermissionModalOpen(true);
+    setIdEmployee(id);
+  }
   return (
     <div className="space-y-4 bg-white p-5 rounded border">
       <div className="flex flex-col sm:flex-row justify-between gap-4">
@@ -84,6 +94,7 @@ const TableEmployee = ({ employee }: IEmployees) => {
                 Ngày vào làm
               </TableHead>
               <TableHead>Trạng thái</TableHead>
+              <TableHead>Vai Trò</TableHead>
               <TableHead className="text-right">Thao tác</TableHead>
             </TableRow>
           </TableHeader>
@@ -109,7 +120,9 @@ const TableEmployee = ({ employee }: IEmployees) => {
                   </TableCell>
                   <TableCell className="hidden md:table-cell">
                     {employee.employee?.hireDate
-                      ? formatDate(new Date(employee.employee.hireDate))
+                      ? formatDate(
+                          new Date(employee.employee.hireDate).toString()
+                        )
                       : "Chưa cập nhật"}
                   </TableCell>
                   <TableCell>
@@ -123,6 +136,10 @@ const TableEmployee = ({ employee }: IEmployees) => {
                         ? "Đang làm việc"
                         : "Đã nghỉ việc"}
                     </Badge>
+                  </TableCell>
+                  <TableCell>
+                    {employee.employee?.roles[0]?.role?.name ||
+                      "Chưa được Cấp Quyền"}
                   </TableCell>
                   <TableCell className="text-right">
                     <DropdownMenu>
@@ -138,12 +155,15 @@ const TableEmployee = ({ employee }: IEmployees) => {
                       <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Thao tác</DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>Chỉnh sửa</DropdownMenuItem>
-                        <DropdownMenuItem className="text-destructive">
-                          {employee.status === "ACTIVE"
-                            ? "Vô hiệu hóa"
-                            : "Kích hoạt"}
+                        <DropdownMenuItem
+                          onClick={() =>
+                            OpenModalGetId(employee.employee?.id ?? "")
+                          }
+                        >
+                          Cấp Quyền
                         </DropdownMenuItem>
+                        <DropdownMenuItem>Chỉnh sửa</DropdownMenuItem>
+                        <DisabledUser employee={employee} />
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
@@ -159,6 +179,11 @@ const TableEmployee = ({ employee }: IEmployees) => {
           </TableBody>
         </Table>
       </div>
+      <PermissionEmployee
+        idEmployee={idEmployee ?? ""}
+        isOpen={isPermissionModalOpen}
+        setIsOpen={setIsPermissionModalOpen}
+      />
     </div>
   );
 };

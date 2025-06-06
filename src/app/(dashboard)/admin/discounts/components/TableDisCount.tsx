@@ -40,9 +40,6 @@ const TableDiscount = ({ discounts }: TableDiscountProps) => {
               <TableCell>{formatDate(discount.validTo)}</TableCell>
               <TableCell className="text-right">
                 <div className="flex justify-end gap-2">
-                  <Button variant="ghost" size="icon">
-                    <Edit className="h-7 w-7 text-blue-700" />
-                  </Button>
                   <DeleteDisCount id={discount.id} />
                 </div>
               </TableCell>

@@ -41,12 +41,7 @@ const DeleteDisCount = ({ id }: DeleteDiscountProps) => {
   };
 
   return (
-    <Button
-      variant="ghost"
-      size={"lg"}
-      onClick={handleDelete}
-      className="cursor-pointer"
-    >
+    <Button variant="ghost" onClick={handleDelete} className="cursor-pointer">
       <Trash className="h-20 w-20 text-red-500 hover:text-red-600  " />
     </Button>
   );

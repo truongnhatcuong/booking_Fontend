@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
+import axiosInstance from "@/lib/axios";
 import axios from "axios";
 import { Trash } from "lucide-react";
 import React from "react";
@@ -22,9 +23,7 @@ const DeleteRoom = ({ roomTypeId }: DeleteRoomtypeProps) => {
     });
     if ((await confirm).isConfirmed) {
       try {
-        const res = await axios.delete(
-          `${process.env.NEXT_PUBLIC_URL_API}/api/roomtype/${roomTypeId}`
-        );
+        const res = await axiosInstance.delete(`/api/roomtype/${roomTypeId}`);
         if (res.data) {
           toast.success("Xóa thành công!");
           mutate(`${process.env.NEXT_PUBLIC_URL_API}/api/roomtype`);

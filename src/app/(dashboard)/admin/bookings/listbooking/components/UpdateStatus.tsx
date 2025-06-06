@@ -24,12 +24,12 @@ const UpdateStatus = ({ id, status }: IUpdateStatus) => {
     );
 
     if (res.data) {
+      mutate(`${process.env.NEXT_PUBLIC_URL_API}/api/booking`);
       if (res.data.data.status === "CHECKED_IN") {
         toast.success("Đã nhận phòng");
       } else if (res.data.data.status === "CHECKED_OUT") {
         toast.success("Đã trả phòng");
       }
-      mutate(`${process.env.NEXT_PUBLIC_URL_API}/api/booking`);
     }
   };
   // huy

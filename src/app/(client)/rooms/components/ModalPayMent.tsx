@@ -1,3 +1,4 @@
+import QrCodePayment from "@/app/(dashboard)/admin/bookings/addbooking/components/QrCodePayment";
 import { formatDate } from "@/lib/formatDate";
 import { formatPrice } from "@/lib/formatPrice";
 import axios from "axios";
@@ -10,7 +11,7 @@ enum PaymentMethod {
   CASH = "CASH",
   CREDIT_CARD = "CREDIT_CARD",
   PAYPAL = "PayPal",
-  QR_CODE = "QR Code",
+  QR_CODE = "QR_CODE",
 }
 
 interface ModalPaymentProps {
@@ -69,8 +70,8 @@ const ModalPayment = ({
         { withCredentials: true }
       );
       if (res.data) {
-        toast.success("Đặt phòng thành công!");
         router.push("/profile/bookings");
+        toast.success("Đặt phòng thành công!");
         setIsOpen(false);
         const resPayment = await axios.post(
           `${process.env.NEXT_PUBLIC_URL_API}/api/payment`,
@@ -83,6 +84,12 @@ const ModalPayment = ({
         );
 
         if (resPayment.data) {
+          console.log(resPayment.data, "resPayment");
+          if (resPayment.data.status === "redirect") {
+            const { url } = resPayment.data;
+            window.location.href = url;
+          }
+
           setIsOpen(false);
         } else {
           toast.error("Thanh toán thất bại, vui lòng thử lại!");
@@ -321,6 +328,9 @@ const ModalPayment = ({
             </div>
           </div>
         </div>
+        {/* {selectedPaymentMethod === PaymentMethod.QR_CODE && (
+          <QrCodePayment Amount={formData.totalAmount} />
+        )} */}
 
         <div className="mt-8 flex justify-end">
           <button

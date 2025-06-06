@@ -29,7 +29,10 @@ const NewCustomerForm = ({ formCustomer, setFormCustomer }: ICustomerProps) => {
     try {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_URL_API}/api/auth/createCustomer`,
-        formCustomer
+        formCustomer,
+        {
+          withCredentials: true,
+        }
       );
       if (res.data) {
         toast.success("Khách Hàng Mới Đã Được Thêm");

@@ -79,6 +79,7 @@ const FormBooking = ({
       : null,
     fetcher1
   );
+  console.log("Discount Data:", discount);
 
   function handleDiscountCode() {
     if (!formData.checkInDate || !formData.checkOutDate) return;
@@ -96,6 +97,7 @@ const FormBooking = ({
       }));
       toast.success("Mã giảm giá đã được áp dụng!");
     } else {
+      toast.error("Mã giảm giá không hợp lệ hoặc đã hết hạn");
       setFormData((prev) => ({
         ...prev,
         discountId: null,

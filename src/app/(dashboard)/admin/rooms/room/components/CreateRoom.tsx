@@ -17,7 +17,7 @@ type RoomFormData = {
   status: string;
   notes: string;
   roomTypeId: string;
-  imageUrls: string[]; // ✅ khai báo rõ là mảng string
+  imageUrls: string[];
 };
 
 interface RoomProps {

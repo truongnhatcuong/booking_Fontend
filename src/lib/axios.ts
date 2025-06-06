@@ -12,8 +12,15 @@ axiosInstance.interceptors.request.use(
     return config;
   },
   (error) => {
-    console.error("[Request Error]", error);
-    return Promise.reject(error);
+    const customError = {
+      message: error.message || "Lỗi không xác định khi gửi request",
+      config: error.config,
+      original: error,
+      status: error.response?.status || 500,
+    };
+
+    console.error("[Request Error]", customError);
+    return Promise.reject(customError);
   }
 );
 
@@ -24,7 +31,19 @@ axiosInstance.interceptors.response.use(
   },
   (error) => {
     console.error("[Response Error]", error);
-    return Promise.reject(error);
+
+    // Trích xuất thông tin lỗi từ response
+    const customError = {
+      status: error.response?.status || 500,
+      message:
+        error.response?.data?.message ||
+        error.message ||
+        "Đã xảy ra lỗi không xác định",
+      data: error.response?.data || null,
+      original: error, // giữ nguyên lỗi gốc nếu cần debug
+    };
+
+    return Promise.reject(customError);
   }
 );
 

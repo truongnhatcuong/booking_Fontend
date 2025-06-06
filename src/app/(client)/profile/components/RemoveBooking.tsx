@@ -48,7 +48,7 @@ const RemoveBooking = ({ bookingId }: RemoveBookingProps) => {
           className="cursor-pointer hover:text-red-500"
         >
           <X className="h-4 w-4 mr-2 " />
-          Hủy đơn
+          Hủy phòng
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>

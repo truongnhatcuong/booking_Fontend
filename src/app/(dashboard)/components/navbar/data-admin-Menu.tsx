@@ -70,6 +70,12 @@ export const adminMenu: IListItemAdmin[] = [
         title: "Tiện nghi",
         icon: HomeIcon,
       },
+      {
+        id: 204,
+        link: "/admin/rooms/maintenance",
+        title: "Danh sách bảo trì",
+        icon: WrenchIcon,
+      },
     ],
   },
   {
@@ -123,32 +129,6 @@ export const adminMenu: IListItemAdmin[] = [
         link: "/admin/reviews/pending",
         title: "Đánh giá chờ duyệt",
         icon: StarIcon,
-      },
-    ],
-  },
-  {
-    id: 7,
-    link: "/admin/maintenance",
-    title: "Quản lý bảo trì",
-    icon: WrenchIcon,
-    subMenuItem: [
-      {
-        id: 701,
-        link: "/admin/maintenance",
-        title: "Danh sách bảo trì",
-        icon: WrenchIcon,
-      },
-      {
-        id: 702,
-        link: "/admin/maintenance/scheduled",
-        title: "Bảo trì đã lên lịch",
-        icon: WrenchIcon,
-      },
-      {
-        id: 703,
-        link: "/admin/maintenance/add",
-        title: "Thêm yêu cầu bảo trì",
-        icon: WrenchIcon,
       },
     ],
   },

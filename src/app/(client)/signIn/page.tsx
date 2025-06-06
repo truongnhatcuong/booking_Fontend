@@ -50,7 +50,6 @@ export default function SignInForm() {
       const data = await res.json();
 
       if (res.ok) {
-        toast.success("Đăng Nhập Thành Công");
         mutate(`${process.env.NEXT_PUBLIC_URL_API}/api/auth/user`);
         setTimeout(() => {
           router.push("/");
