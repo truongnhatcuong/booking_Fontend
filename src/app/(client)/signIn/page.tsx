@@ -9,6 +9,9 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
+import { URL_API } from "@/lib/fetcher";
+import axiosInstance from "@/lib/axios";
+import { error } from "console";
 
 export default function SignInForm() {
   const router = useRouter();
@@ -38,27 +41,18 @@ export default function SignInForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_URL_API}/api/auth/login`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-          credentials: "include",
-        }
-      );
-      const data = await res.json();
+      const res = await axiosInstance.post(`/api/auth/login`, formData, {
+        withCredentials: true,
+      });
 
-      if (res.ok) {
-        mutate(`${process.env.NEXT_PUBLIC_URL_API}/api/auth/user`);
+      if (res.data) {
+        mutate(`${URL_API}/api/auth/user`);
         setTimeout(() => {
           router.push("/");
         }, 1800);
-      } else {
-        setMessage(data.message);
       }
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      setMessage(error.response.data.message);
     }
   };
   useEffect(() => {
@@ -142,7 +136,7 @@ export default function SignInForm() {
                 </Label>
               </div>
               <Link
-                href="#"
+                href="/forgot-password"
                 className="text-lg text-amber-600 hover:text-amber-700 hover:underline transition-colors"
               >
                 Quên mật khẩu?

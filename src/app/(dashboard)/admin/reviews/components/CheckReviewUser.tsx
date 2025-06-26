@@ -30,6 +30,11 @@ interface CheckReviewUserProps {
 export default function CheckReviewUser({ reviews }: CheckReviewUserProps) {
   return (
     <div className="space-y-6  mx-auto scroll-auto relative bg-white p-8">
+      <div>
+        <h1 className="text-2xl font-semibold mb-2">
+          Danh Sách Đánh Giá của Hotel
+        </h1>
+      </div>
       {reviews && reviews.length > 0 ? (
         reviews.map((review) => (
           <div

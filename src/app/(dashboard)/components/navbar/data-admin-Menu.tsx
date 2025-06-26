@@ -115,7 +115,7 @@ export const adminMenu: IListItemAdmin[] = [
   {
     id: 6,
     link: "/admin/reviews",
-    title: "Quản lý đánh giá",
+    title: "Quản lý hành vi",
     icon: StarIcon,
     subMenuItem: [
       {
@@ -126,34 +126,8 @@ export const adminMenu: IListItemAdmin[] = [
       },
       {
         id: 602,
-        link: "/admin/reviews/pending",
-        title: "Đánh giá chờ duyệt",
-        icon: StarIcon,
-      },
-    ],
-  },
-  {
-    id: 8,
-    link: "/admin/audit-logs",
-    title: "Nhật ký kiểm tra",
-    icon: DocumentTextIcon,
-    subMenuItem: [
-      {
-        id: 801,
-        link: "/admin/audit-logs",
+        link: "/admin/reviews/audit-logs",
         title: "Xem nhật ký",
-        icon: DocumentTextIcon,
-      },
-      {
-        id: 802,
-        link: "/admin/audit-logs/users",
-        title: "Nhật ký người dùng",
-        icon: DocumentTextIcon,
-      },
-      {
-        id: 803,
-        link: "/admin/audit-logs/bookings",
-        title: "Nhật ký đặt phòng",
         icon: DocumentTextIcon,
       },
     ],

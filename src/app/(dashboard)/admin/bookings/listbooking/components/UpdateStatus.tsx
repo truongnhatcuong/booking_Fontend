@@ -13,21 +13,22 @@ import { MoreHorizontal } from "lucide-react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
+import axiosInstance from "@/lib/axios";
+import { URL_API } from "@/lib/fetcher";
 interface IUpdateStatus {
   id: string;
   status: "PENDING" | "CONFIRMED" | "CANCELLED" | "CHECKED_IN" | "CHECKED_OUT";
 }
 const UpdateStatus = ({ id, status }: IUpdateStatus) => {
   const handleUpdateStatus = async () => {
-    const res = await axios.put(
-      `${process.env.NEXT_PUBLIC_URL_API}/api/booking/${id}`
-    );
+    const res = await axiosInstance.put(`/api/booking/${id}`);
 
     if (res.data) {
-      mutate(`${process.env.NEXT_PUBLIC_URL_API}/api/booking`);
       if (res.data.data.status === "CHECKED_IN") {
+        mutate(`${URL_API}/api/booking`);
         toast.success("Đã nhận phòng");
       } else if (res.data.data.status === "CHECKED_OUT") {
+        mutate(`${URL_API}/api/booking`);
         toast.success("Đã trả phòng");
       }
     }
@@ -35,12 +36,10 @@ const UpdateStatus = ({ id, status }: IUpdateStatus) => {
   // huy
   const handleCancelledStatus = async () => {
     try {
-      const res = await axios.put(
-        `${process.env.NEXT_PUBLIC_URL_API}/api/booking/cancelled/${id}`
-      );
+      const res = await axiosInstance.put(`/api/booking/cancelled/${id}`);
 
       if (res.data) {
-        mutate(`${process.env.NEXT_PUBLIC_URL_API}/api/booking`);
+        mutate(`${URL_API}/api/booking`);
         toast.success("Phòng Đã Được Hủy");
       }
     } catch (error: any) {

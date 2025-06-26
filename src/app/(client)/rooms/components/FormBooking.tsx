@@ -6,13 +6,11 @@ import toast from "react-hot-toast";
 import useSWR from "swr";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { fetcher } from "@/lib/fetcher";
+import { URL_API } from "@/lib/fetcher";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
-import { set } from "date-fns";
-
 interface BookedRange {
   start: string; // "YYYY-MM-DD"
   end: string; // "YYYY-MM-DD"
@@ -68,15 +66,10 @@ const FormBooking = ({
     }
   };
 
-  const { data } = useSWR(
-    `${process.env.NEXT_PUBLIC_URL_API}/api/room/${room.id}/booked-dates`,
-    fetcher
-  );
+  const { data } = useSWR(`${URL_API}/api/room/${room.id}/booked-dates`);
 
   const { data: discount } = useSWR(
-    discountCode
-      ? `${process.env.NEXT_PUBLIC_URL_API}/api/discount?code=${discountCode}`
-      : null,
+    discountCode ? `${URL_API}/api/discount?code=${discountCode}` : null,
     fetcher1
   );
   console.log("Discount Data:", discount);

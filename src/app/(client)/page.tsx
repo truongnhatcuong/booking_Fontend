@@ -4,14 +4,14 @@ import BeanHotel from "./components/header/BeanHotel";
 import Banner from "./components/main/Banner";
 import RoomShow from "./components/main/RoomShow";
 import HotelShow from "./components/main/HotelShow";
+import ShearchRoomPage from "./components/main/SearchRoom";
 
 const page = () => {
-  console.log(process.env.NEXT_PUBLIC_URL_API);
-
   return (
     <div className="">
       {" "}
       <Banner />
+      <ShearchRoomPage />
       <BeanHotel />
       <RoomShow />
       <HotelShow />

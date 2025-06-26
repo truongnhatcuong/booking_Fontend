@@ -24,47 +24,37 @@ const AccountUser = ({ userType, lastName }: AccountUserProps) => {
         <DropdownMenuLabel>Thông Tin Tài Khoản</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {userType === "EMPLOYEE" || userType === "ADMIN" ? (
-          <DropdownMenuItem>
-            <Link
-              href="/admin"
-              className="hover:text-yellow-600 transition-colors duration-100 cursor-pointer"
-            >
+          <Link href="/admin" className=" cursor-pointer">
+            <DropdownMenuItem className="cursor-pointer hover:text-yellow-600 transition-colors duration-100">
               Quản Lý
-            </Link>
-          </DropdownMenuItem>
+            </DropdownMenuItem>
+          </Link>
         ) : (
           <>
-            <DropdownMenuItem>
-              <Link
-                href="/profile"
-                className="hover:text-yellow-600 transition-colors duration-100 cursor-pointer"
-              >
+            <Link href="/profile" className=" cursor-pointer">
+              <DropdownMenuItem className=" cursor-pointer">
                 Thông Tin
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Link
-                href="/profile/bookings"
-                className="hover:text-yellow-600 transition-colors duration-100 cursor-pointer"
-              >
+              </DropdownMenuItem>
+            </Link>
+            <Link href="/profile/bookings" className=" cursor-pointer">
+              <DropdownMenuItem className=" cursor-pointer">
                 Đơn Đặt Phòng
-              </Link>
-            </DropdownMenuItem>
+              </DropdownMenuItem>
+            </Link>
           </>
         )}
-        <DropdownMenuItem>
-          <Link
-            href="/logOut"
-            className="hover:text-yellow-600 transition-colors duration-100 cursor-pointer"
-            onClick={() => {
-              mutate(`${process.env.NEXT_PUBLIC_URL_API}/api/auth/user`, null, {
-                revalidate: false,
-              });
-            }}
-          >
+        <Link
+          href="/logOut"
+          onClick={() => {
+            mutate(`${process.env.NEXT_PUBLIC_URL_API}/api/auth/user`, null, {
+              revalidate: false,
+            });
+          }}
+        >
+          <DropdownMenuItem className=" cursor-pointer">
             Đăng Xuất
-          </Link>
-        </DropdownMenuItem>
+          </DropdownMenuItem>
+        </Link>
       </DropdownMenuContent>
     </DropdownMenu>
   );

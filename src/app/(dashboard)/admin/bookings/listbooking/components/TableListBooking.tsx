@@ -50,6 +50,29 @@ interface BookingProps {
 }
 
 const TableListBooking = ({ booking, error }: BookingProps) => {
+  function getCurrentBookingVisualStatus(
+    checkIn: string,
+    checkOut: string
+  ): "check-in" | "in-use" | "check-out" {
+    const today = new Date();
+    const checkInDate = new Date(checkIn);
+    const checkOutDate = new Date(checkOut);
+
+    if (today.toDateString() === checkInDate.toDateString()) {
+      return "check-in";
+    }
+
+    if (today > checkInDate && today < checkOutDate) {
+      return "in-use";
+    }
+
+    if (today.toDateString() === checkOutDate.toDateString()) {
+      return "check-out";
+    }
+
+    return "in-use"; // fallback nếu ngoài phạm vi (có thể return null nếu muốn ẩn)
+  }
+
   return (
     <div className="bg-white rounded-lg shadow-md overflow-x-auto">
       <Table className="min-w-full divide-y divide-gray-200">
@@ -71,13 +94,13 @@ const TableListBooking = ({ booking, error }: BookingProps) => {
               Ngày trả phòng
             </TableHead>
             <TableHead className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Số khách
-            </TableHead>
-            <TableHead className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Tổng tiền
             </TableHead>
             <TableHead className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Trạng thái
+            </TableHead>
+            <TableHead className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Lịch
             </TableHead>
             <TableHead className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Thanh toán
@@ -112,7 +135,10 @@ const TableListBooking = ({ booking, error }: BookingProps) => {
               </TableCell>
               <TableCell className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                 {booking.bookingItems.map((item, index) => (
-                  <span key={index}>{item.room.roomType.name}</span>
+                  <p key={index}>
+                    {item.room.roomType.name}{" "}
+                    <span>({booking.totalGuests})</span>
+                  </p>
                 ))}
               </TableCell>
 
@@ -121,9 +147,6 @@ const TableListBooking = ({ booking, error }: BookingProps) => {
               </TableCell>
               <TableCell className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                 {new Date(booking.checkOutDate).toLocaleDateString("vi-VN")}
-              </TableCell>
-              <TableCell className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                {booking.totalGuests} Khách
               </TableCell>
               <TableCell className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                 {formatPrice(Number(booking.totalAmount))}
@@ -143,6 +166,28 @@ const TableListBooking = ({ booking, error }: BookingProps) => {
                   {booking.status}
                 </span>
               </TableCell>
+              <TableCell className="px-6 py-4 whitespace-nowrap text-sm">
+                {(() => {
+                  const status = getCurrentBookingVisualStatus(
+                    booking.checkInDate,
+                    booking.checkOutDate
+                  );
+                  const color =
+                    status === "check-in"
+                      ? "bg-green-500"
+                      : status === "in-use"
+                      ? "bg-yellow-400"
+                      : "bg-red-500";
+
+                  return (
+                    <div
+                      className={`w-5 h-5 rounded-full ${color}`}
+                      title={status}
+                    ></div>
+                  );
+                })()}
+              </TableCell>
+
               <td className="px-6 py-4 whitespace-nowrap text-sm">
                 <span
                   className={`px-2 py-1 rounded-full text-xs font-semibold ${
