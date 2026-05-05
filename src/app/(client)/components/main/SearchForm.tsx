@@ -98,17 +98,19 @@ const SearchForm = ({
   return (
     <div
       className={`w-full mx-auto transition-all duration-500 ease-in-out 
-        ${isSticky
-          ? "fixed top-0 left-0 right-0 z-40 py-2 bg-white/80 backdrop-blur-md shadow-lg border-b border-blue-50"
-          : "relative py-16"
+        ${
+          isSticky
+            ? "fixed top-0 left-0 right-0 z-40 py-2 bg-white/80 backdrop-blur-md shadow-lg border-b border-blue-50"
+            : "relative py-16"
         }`}
     >
       <motion.div
         layout
         className={`max-w-6xl mx-auto bg-white transition-all duration-300
-          ${isSticky
-            ? "max-w-4xl lg:rounded-full shadow-md border border-gray-100"
-            : "rounded-2xl shadow-2xl border border-gray-100 relative pb-8"
+          ${
+            isSticky
+              ? "max-w-4xl lg:rounded-full shadow-md border border-gray-100"
+              : "rounded-2xl shadow-2xl border border-gray-100 relative pb-8"
           }`}
       >
         <form
@@ -247,9 +249,10 @@ const SearchForm = ({
           <button
             type="submit"
             className={`bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center gap-2 transition-all duration-300 font-bold group active:scale-95 shadow-lg
-              ${isSticky
-                ? "px-6 py-2 rounded-full text-xs my-1 mr-1"
-                : "absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-[65%] px-16 py-5 rounded-xl text-xl"
+              ${
+                isSticky
+                  ? "px-6 py-2 rounded-full text-xs my-1 mr-1"
+                  : "absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-[65%] px-16 py-5 rounded-xl text-sm md:text-xl"
               }`}
           >
             <Search

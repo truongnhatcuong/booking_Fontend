@@ -46,6 +46,11 @@ export default function SignUpForm() {
     idNumber: "",
   });
 
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // Lưu face descriptor riêng — không trộn vào formData
   const [faceDescriptor, setFaceDescriptor] = useState<number[] | null>(null);
 
@@ -89,9 +94,19 @@ export default function SignUpForm() {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) router.push("/");
-  }, [router]);
+    if (mounted) {
+      const token = localStorage.getItem("token");
+      if (token) router.push("/");
+    }
+  }, [mounted, router]);
+
+  if (!mounted || (typeof window !== "undefined" && localStorage.getItem("token"))) {
+    return (
+      <div className="min-h-screen bg-linear-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-linear-to-br from-blue-50 via-indigo-50 to-purple-50 py-12 px-4 sm:px-6 lg:px-8">

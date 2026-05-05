@@ -177,16 +177,16 @@ const TableListBooking = ({
                 <TableCell className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                   <span
                     className={` py-1 text-xs px-2 flex justify-center rounded-3xl text-white font-bold ${
-                      booking.payments[0].paymentMethod === "CASH"
+                      booking.payments[0]?.paymentMethod === "CASH"
                         ? "bg-blue-400  "
                         : "bg-green-500 "
                     }`}
                   >
-                    {
-                      translatepaymentMethodDisplayNames[
-                        booking.payments[0].paymentMethod
-                      ]
-                    }
+                    {booking?.payments[0]?.paymentMethod
+                      ? translatepaymentMethodDisplayNames[
+                          booking?.payments[0]?.paymentMethod
+                        ]
+                      : "N/A"}
                   </span>
                 </TableCell>
                 <td className="px-6 py-4 whitespace-nowrap text-sm">

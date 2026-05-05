@@ -8,8 +8,6 @@ import { IBooking } from "./components/bookingad";
 import Pagination from "@/app/(dashboard)/components/Pagination/Pagination";
 import LimitSelector from "@/app/(dashboard)/components/Pagination/SelectRecord";
 
-const API_URL = process.env.NEXT_PUBLIC_URL_API;
-
 type Dates = {
   checkInDate: Date | null;
   checkOutDate: Date | null;
@@ -38,9 +36,7 @@ const BookingManagementForm = () => {
     limit: String(limit),
   });
 
-  const { data, isLoading } = useSWR<IBooking>(
-    `${API_URL}/api/booking?${params.toString()}`,
-  );
+  const { data } = useSWR<IBooking>(`/api/booking?${params.toString()}`);
 
   const handleLimitChange = (newLimit: number) => {
     setLimit(newLimit);

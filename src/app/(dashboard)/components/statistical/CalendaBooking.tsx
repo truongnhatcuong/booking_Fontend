@@ -32,6 +32,7 @@ interface BookingEvent {
   customer: { user: { firstName: string; lastName: string } };
   checkInDate: string;
   checkOutDate: string;
+  status: string;
 }
 
 interface BookingResponse {
@@ -48,24 +49,28 @@ const fetchAllBookings = async (url: string): Promise<BookingEvent[]> => {
   const res = await fetch(`${url}?page=1&limit=100`);
   const data: BookingResponse = await res.json();
 
-  if (data.totalPages <= 1) return data.bookings;
+  let allBookings = [...data.bookings];
 
-  // Bước 2: fetch song song các trang còn lại
-  const remainingPages = Array.from(
-    { length: data.totalPages - 1 },
-    (_, i) => i + 2,
-  );
+  if (data.totalPages > 1) {
+    // Bước 2: fetch song song các trang còn lại
+    const remainingPages = Array.from(
+      { length: data.totalPages - 1 },
+      (_, i) => i + 2,
+    );
 
-  const results = await Promise.all(
-    remainingPages.map((page) =>
-      fetch(`${url}?page=${page}&limit=100`).then((r) => r.json()),
-    ),
-  );
+    const results = await Promise.all(
+      remainingPages.map((page) =>
+        fetch(`${url}?page=${page}&limit=100`).then((r) => r.json()),
+      ),
+    );
 
-  return [
-    ...data.bookings,
-    ...results.flatMap((r: BookingResponse) => r.bookings),
-  ];
+    allBookings = [
+      ...allBookings,
+      ...results.flatMap((r: BookingResponse) => r.bookings),
+    ];
+  }
+
+  return allBookings.filter((b) => b.status !== "CANCELLED");
 };
 
 const CalendarBooking = () => {
