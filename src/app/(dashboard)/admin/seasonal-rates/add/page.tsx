@@ -1,4 +1,3 @@
-import { UpdateComponent } from "@/app/(client)/components/common/UpdateComponent";
 import React from "react";
 import AddSeasonalRate from "../components/CreateSeasonal";
 

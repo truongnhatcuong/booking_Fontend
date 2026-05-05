@@ -2,16 +2,85 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 import { Review } from "@/app/(dashboard)/admin/reviews/components/CheckReviewUser";
-import { URL_API } from "@/lib/fetcher";
-import useSWR from "swr";
 import { Star } from "lucide-react";
 
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+const MOCK_REVIEWS: Review[] = [
+  {
+    id: "1",
+    rating: 5,
+    comment:
+      "Dịch vụ tuyệt vời, phòng sạch sẽ và nhân viên rất thân thiện. Tôi sẽ quay lại đây vào lần sau!",
+    reviewDate: new Date().toISOString(),
+    customer: {
+      user: {
+        id: "u1",
+        firstName: "Nguyễn",
+        lastName: "An",
+      },
+    },
+  },
+  {
+    id: "2",
+    rating: 5,
+    comment:
+      "Khách sạn có view rất đẹp, không gian yên tĩnh, thích hợp cho việc nghỉ dưỡng cùng gia đình.",
+    reviewDate: new Date().toISOString(),
+    customer: {
+      user: {
+        id: "u2",
+        firstName: "Trần",
+        lastName: "Bình",
+      },
+    },
+  },
+  {
+    id: "3",
+    rating: 5,
+    comment:
+      "Giá cả hợp lý so với chất lượng dịch vụ. Bữa sáng ngon miệng và đa dạng món ăn.",
+    reviewDate: new Date().toISOString(),
+    customer: {
+      user: {
+        id: "u3",
+        firstName: "Lê",
+        lastName: "Chi",
+      },
+    },
+  },
+  {
+    id: "4",
+    rating: 5,
+    comment:
+      "Vị trí thuận tiện, gần các khu vui chơi giải trí. Rất hài lòng với kỳ nghỉ này.",
+    reviewDate: new Date().toISOString(),
+    customer: {
+      user: {
+        id: "u4",
+        firstName: "Phạm",
+        lastName: "Dũng",
+      },
+    },
+  },
+  {
+    id: "5",
+    rating: 5,
+    comment: "Phòng ốc hiện đại, trang thiết bị đầy đủ. Hồ bơi sạch và đẹp.",
+    reviewDate: new Date().toISOString(),
+    customer: {
+      user: {
+        id: "u5",
+        firstName: "Hoàng",
+        lastName: "Em",
+      },
+    },
+  },
+];
 
 export default function TestimonialCarousel() {
-  const { data } = useSWR<Review[]>(`${URL_API}/api/review/all`);
+  const data = MOCK_REVIEWS;
 
   const StarRating = ({ rating }: { rating: number }) => {
     return (
