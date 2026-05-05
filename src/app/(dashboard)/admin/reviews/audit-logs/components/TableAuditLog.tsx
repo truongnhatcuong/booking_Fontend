@@ -63,6 +63,12 @@ const ACTION_CONFIG: Record<string, ActionConfig> = {
     bgColor: "bg-purple-50",
     label: "Thanh toán thành công",
   },
+  PAYMENT_CANCEL: {
+    icon: XCircle,
+    iconColor: "text-red-500",
+    bgColor: "bg-red-50",
+    label: "Thanh toán đã hủy",
+  },
 };
 
 const getActionConfig = (action: string): ActionConfig =>

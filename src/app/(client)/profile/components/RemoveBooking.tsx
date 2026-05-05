@@ -13,9 +13,9 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import toast from "react-hot-toast";
-import { mutate } from "swr";
 import Link from "next/link";
 import axiosInstance from "@/lib/axios";
+import Mutate from "@/hook/Mutate";
 
 interface RemoveBookingProps {
   bookingId: string;
@@ -28,7 +28,7 @@ const RemoveBooking = ({ bookingId, paymentMethod }: RemoveBookingProps) => {
       const res = await axiosInstance.delete(`/api/booking/${bookingId}`);
       if (res.data) {
         toast.success("Đơn đặt phòng đã được hủy thành công");
-        mutate(`${process.env.NEXT_PUBLIC_URL_API}/api/booking/bookingUser`);
+        Mutate("/api/booking/bookingUser");
       }
     } catch (error) {
       toast.error("Có lỗi xảy ra khi hủy đơn");

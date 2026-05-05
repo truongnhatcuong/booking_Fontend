@@ -40,8 +40,6 @@ export default function SignInForm() {
   const token =
     typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
-
-
   // Load saved email
   useEffect(() => {
     const savedEmail = localStorage.getItem("remembered_email");
