@@ -40,7 +40,6 @@ const Page = () => {
       <HotelShowcaseSection />
       <HotelShow />
       <HotelHighlightsServer />
-
       <ChatBoxAL />
       <ChatBox />
       <HotelMapWrapper />
