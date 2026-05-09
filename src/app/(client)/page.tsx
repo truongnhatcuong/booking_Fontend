@@ -9,6 +9,9 @@ import dynamic from "next/dynamic";
 const RoomTypeShowcase = dynamic(
   () => import("./components/main/RoomTypeShowcase"),
 );
+const RecommendedRoomsServer = dynamic(
+  () => import("./components/main/RecommendedRoomsServer"),
+);
 const HotelShow = dynamic(() => import("./components/main/HotelShow"));
 const HotelHighlightsServer = dynamic(
   () => import("./components/main/HotelHighlightsServer"),
@@ -36,6 +39,7 @@ const Page = () => {
       <BeanHotel />
 
       {/* DYNAMIC - Quá trình tải tách biệt khỏi giao diện ban đầu */}
+      <RecommendedRoomsServer />
       <RoomTypeShowcase />
       <HotelShowcaseSection />
       <HotelShow />
