@@ -1,10 +1,6 @@
 import { create } from "zustand";
 
-interface Amenity {
-  id: string;
-  name: string;
-  description: string | null;
-}
+
 
 export interface IRoomType {
   id: string;
